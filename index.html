@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Pizza Nostra – La pizza &amp; la pasta</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lato:wght@300;400;700;900&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* =====================
+           CSS VARIABLES
+        ===================== */
+        :root {
+            --red:        #CC2222;
+            --red-dark:   #8B0808;
+            --red-light:  #E84040;
+            --green:      #1A7A1A;
+            --green-dark: #145A14;
+            --dark:       #1A1A1A;
+            --dark-2:     #2D2D2D;
+            --cream:      #FAF7F2;
+            --warm-white: #FFFEF9;
+            --gold:       #C8960A;
+            --text-dark:  #3A3A3A;
+            --text-muted: #6B6B6B;
+            --border:     rgba(0,0,0,0.08);
+            --shadow-sm:  0 2px 12px rgba(0,0,0,0.08);
+            --shadow-md:  0 8px 32px rgba(0,0,0,0.12);
+            --shadow-lg:  0 20px 60px rgba(0,0,0,0.15);
+            --radius-sm:  8px;
+            --radius-md:  16px;
+            --radius-lg:  24px;
+            --radius-xl:  40px;
+            --font-h:     'Playfair Display', Georgia, serif;
+            --font-b:     'Lato', system-ui, sans-serif;
+            --font-s:     'Dancing Script', cursive;
+            --ease:       0.3s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        /* =====================
+           RESET
+        ===================== */
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; font-size:16px; }
+        body { font-family:var(--font-b); color:var(--text-dark); background:var(--warm-white); overflow-x:hidden; line-height:1.6; }
+        img { max-width:100%; height:auto; display:block; }
+        a { text-decoration:none; color:inherit; }
+
+        /* =====================
+           PHOTO PLACEHOLDERS
+        ===================== */
+        .ph {
+            background: #f0ece4;
+            border: 2.5px dashed var(--red);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        .ph::before {
+            content:'';
+            position:absolute;
+            inset:0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(204,34,34,0.04) 10px,
+                rgba(204,34,34,0.04) 20px
+            );
+        }
+        .ph-inner {
+            position:relative;
+            z-index:1;
+            text-align:center;
+            padding:16px;
+        }
+        .ph-icon {
+            width:52px; height:52px;
+            background:var(--red);
+            border-radius:50%;
+            display:flex; align-items:center; justify-content:center;
+            margin:0 auto 10px;
+        }
+        .ph-icon svg { width:26px; height:26px; fill:white; }
+        .ph-label {
+            font-family:var(--font-h);
+            font-weight:700;
+            font-size:0.88rem;
+            color:var(--red-dark);
+            margin-bottom:3px;
+        }
+        .ph-hint { font-size:0.74rem; color:var(--text-muted); line-height:1.4; }
+
+        /* =====================
+           NAVBAR
+        ===================== */
+        #nav {
+            position:fixed; top:0; left:0; right:0; z-index:1000;
+            padding:16px 0;
+            transition:all var(--ease);
+        }
+        #nav.t  { background:transparent; }
+        #nav.sc {
+            background:rgba(255,255,255,0.94);
+            backdrop-filter:blur(20px);
+            -webkit-backdrop-filter:blur(20px);
+            box-shadow:var(--shadow-sm);
+            padding:10px 0;
+        }
+        .nav-c {
+            max-width:1240px; margin:0 auto; padding:0 24px;
+            display:flex; align-items:center; justify-content:space-between; gap:20px;
+        }
+        .nav-logo img { height:62px; width:auto; transition:height var(--ease); }
+        #nav.sc .nav-logo img { height:50px; }
+        .nav-logo-ph {
+            height:62px; width:120px;
+            border:2px dashed rgba(255,255,255,0.5);
+            border-radius:var(--radius-sm);
+            display:flex; align-items:center; justify-content:center;
+            color:rgba(255,255,255,0.6);
+            font-size:0.65rem; font-weight:700; text-align:center;
+            line-height:1.3; padding:6px;
+            transition:height var(--ease);
+        }
+        #nav.sc .nav-logo-ph { border-color:rgba(0,0,0,0.2); color:var(--text-muted); }
+
+        .nav-ul {
+            display:flex; align-items:center; gap:2px; list-style:none;
+        }
+        .nav-ul a {
+            font-family:var(--font-b);
+            font-weight:700;
+            font-size:0.84rem;
+            letter-spacing:0.05em;
+            text-transform:uppercase;
+            padding:8px 13px;
+            border-radius:6px;
+            transition:all var(--ease);
+            color:white;
+            text-shadow:0 1px 4px rgba(0,0,0,0.4);
+        }
+        #nav.sc .nav-ul a { color:var(--dark); text-shadow:none; }
+        .nav-ul a:hover { color:var(--red)!important; background:rgba(204,34,34,0.08); text-shadow:none!important; }
+        .nav-cta {
+            background:var(--red)!important;
+            color:white!important;
+            padding:10px 22px!important;
+            border-radius:50px!important;
+            text-shadow:none!important;
+        }
+        .nav-cta:hover { background:var(--red-dark)!important; transform:translateY(-2px); box-shadow:0 4px 16px rgba(204,34,34,0.35)!important; }
+
+        .nav-ham {
+            display:none; flex-direction:column; gap:5px;
+            cursor:pointer; padding:8px; background:none; border:none; border-radius:6px;
+        }
+        .nav-ham span { display:block; width:24px; height:2px; border-radius:2px; transition:all var(--ease); }
+        #nav.t  .nav-ham span { background:white; }
+        #nav.sc .nav-ham span { background:var(--dark); }
+        .nav-ham.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+        .nav-ham.open span:nth-child(2) { opacity:0; }
+        .nav-ham.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+
+        .nav-mob {
+            display:none; flex-direction:column; gap:3px;
+            background:white; border-top:1px solid var(--border);
+            padding:14px 24px;
+        }
+        .nav-mob.open { display:flex; }
+        .nav-mob a {
+            font-weight:700; font-size:0.88rem;
+            text-transform:uppercase; letter-spacing:0.05em;
+            padding:12px 14px; border-radius:8px;
+            color:var(--dark); transition:all var(--ease);
+        }
+        .nav-mob a:hover { color:var(--red); background:rgba(204,34,34,0.06); }
+        .nav-mob .nav-cta { background:var(--red)!important; color:white!important; text-align:center; margin-top:8px; border-radius:50px!important; }
+
+        /* =====================
+           HERO
+        ===================== */
+        #hero {
+            min-height:100vh; position:relative;
+            display:flex; align-items:center;
+            overflow:hidden; background:var(--dark);
+        }
+        .hero-bg { position:absolute; inset:0; z-index:0; }
+        .hero-bg-ph {
+            position:absolute; inset:0;
+            background:linear-gradient(135deg, #1a1a1a 0%, #2d1a0a 55%, #1a0808 100%);
+            display:flex; align-items:center; justify-content:center;
+            flex-direction:column; gap:12px;
+        }
+        .hero-bg-ph::after { content:''; position:absolute; inset:8px; border:3px dashed rgba(204,34,34,0.35); pointer-events:none; border-radius:4px; }
+        .hero-bg-icon {
+            width:72px; height:72px;
+            border:2px dashed rgba(255,255,255,0.25);
+            border-radius:50%; display:flex; align-items:center; justify-content:center;
+        }
+        .hero-bg-icon svg { width:32px; height:32px; fill:rgba(255,255,255,0.4); }
+        .hero-bg-lbl { color:rgba(255,255,255,0.45); font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; text-align:center; }
+
+        .hero-overlay {
+            position:absolute; inset:0;
+            background:linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.45) 55%, rgba(0,0,0,0.1) 100%);
+            z-index:1;
+        }
+        .blob {
+            position:absolute; border-radius:50%;
+            filter:blur(80px); opacity:0.14; z-index:1;
+            animation:blobM 9s ease-in-out infinite;
+        }
+        .blob-1 { background:var(--red); width:600px; height:600px; top:-120px; right:-80px; animation-delay:0s; }
+        .blob-2 { background:var(--green); width:420px; height:420px; bottom:-130px; right:180px; animation-delay:-4.5s; }
+        @keyframes blobM {
+            0%,100% { border-radius:50% 40% 60% 30%/40% 60% 30% 70%; transform:scale(1); }
+            33%      { border-radius:30% 60% 40% 70%/60% 30% 70% 40%; transform:scale(1.05); }
+            66%      { border-radius:60% 30% 70% 40%/30% 70% 40% 60%; transform:scale(0.95); }
+        }
+
+        .hero-c {
+            position:relative; z-index:2;
+            max-width:1240px; margin:0 auto; padding:130px 24px 90px;
+            display:grid; grid-template-columns:1fr 1fr; gap:60px;
+            align-items:center; width:100%;
+        }
+        .hero-badge {
+            display:inline-flex; align-items:center; gap:8px;
+            background:rgba(204,34,34,0.15);
+            border:1px solid rgba(204,34,34,0.3);
+            padding:6px 16px; border-radius:50px;
+            margin-bottom:22px;
+            animation:fdDown 0.8s ease 0.2s both;
+        }
+        .badge-dot { width:6px; height:6px; background:var(--red); border-radius:50%; animation:pulse 2s ease-in-out infinite; }
+        .hero-badge span { font-size:0.76rem; font-weight:700; color:rgba(255,255,255,0.85); text-transform:uppercase; letter-spacing:0.1em; }
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.5;transform:scale(0.8);} }
+
+        .hero-h1 {
+            font-family:var(--font-h); font-weight:900;
+            font-size:clamp(2.8rem,5vw,5rem);
+            color:white; line-height:1.08;
+            margin-bottom:14px;
+            animation:fdLeft 0.9s ease 0.4s both;
+        }
+        .hero-h1 em { color:var(--red); font-style:normal; }
+        .hero-script {
+            font-family:var(--font-s); font-size:clamp(1.2rem,2.5vw,1.7rem);
+            color:rgba(255,255,255,0.65); margin-bottom:18px;
+            animation:fdLeft 0.9s ease 0.5s both;
+        }
+        .hero-desc {
+            font-size:1.02rem; color:rgba(255,255,255,0.6);
+            max-width:460px; line-height:1.75; margin-bottom:34px;
+            animation:fdLeft 0.9s ease 0.6s both;
+        }
+        .hero-btns { display:flex; gap:13px; flex-wrap:wrap; animation:fdLeft 0.9s ease 0.7s both; }
+
+        @keyframes fdLeft  { from{opacity:0;transform:translateX(-28px);} to{opacity:1;transform:translateX(0);} }
+        @keyframes fdRight { from{opacity:0;transform:translateX(28px);}  to{opacity:1;transform:translateX(0);} }
+        @keyframes fdDown  { from{opacity:0;transform:translateY(-14px);} to{opacity:1;transform:translateY(0);} }
+        @keyframes fdUp    { from{opacity:0;transform:translateY(30px);}  to{opacity:1;transform:translateY(0);} }
+
+        .hero-vis { animation:fdRight 1s ease 0.5s both; }
+        .hero-vis-wrap { width:100%; aspect-ratio:4/5; border-radius:var(--radius-xl); position:relative; overflow:visible; }
+
+        /* Floating cards */
+        .fc {
+            position:absolute; background:white;
+            border-radius:var(--radius-md); padding:12px 16px;
+            box-shadow:var(--shadow-md); z-index:3;
+        }
+        .fc-1 { bottom:-20px; left:-28px; animation:float 6s ease-in-out infinite; animation-delay:0s; }
+        .fc-2 { top:28px; right:-18px; animation:float 6s ease-in-out infinite; animation-delay:-3s; }
+        .fc-lbl { font-size:0.7rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:2px; }
+        .fc-val { font-family:var(--font-h); font-weight:700; font-size:1rem; color:var(--dark); }
+        .fc-val em { color:var(--red); font-style:normal; }
+        @keyframes float { 0%,100%{transform:translateY(0) rotate(-1deg);} 50%{transform:translateY(-11px) rotate(1deg);} }
+
+        .hero-scroll {
+            position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+            z-index:2; display:flex; flex-direction:column;
+            align-items:center; gap:8px;
+            color:rgba(255,255,255,0.45); font-size:0.72rem;
+            letter-spacing:0.1em; text-transform:uppercase;
+        }
+        .scroll-ln { width:1px; height:38px; background:rgba(255,255,255,0.25); animation:scLine 2s ease-in-out infinite; }
+        @keyframes scLine { 0%{transform:scaleY(0);transform-origin:top;} 50%{transform:scaleY(1);transform-origin:top;} 51%{transform-origin:bottom;} 100%{transform:scaleY(0);transform-origin:bottom;} }
+
+        /* =====================
+           BUTTONS
+        ===================== */
+        .btn {
+            display:inline-flex; align-items:center; gap:8px;
+            padding:13px 26px; border-radius:50px;
+            font-weight:700; font-size:0.92rem;
+            letter-spacing:0.02em; transition:all var(--ease);
+            cursor:pointer; border:2px solid transparent;
+        }
+        .btn svg { width:16px; height:16px; transition:transform var(--ease); }
+        .btn:hover svg { transform:translateX(3px); }
+        .btn-red { background:var(--red); color:white; }
+        .btn-red:hover { background:var(--red-dark); transform:translateY(-3px); box-shadow:0 8px 24px rgba(204,34,34,0.38); }
+        .btn-green { background:var(--green); color:white; }
+        .btn-green:hover { background:var(--green-dark); transform:translateY(-3px); box-shadow:0 8px 24px rgba(26,122,26,0.38); }
+        .btn-ghost { background:transparent; color:white; border-color:rgba(255,255,255,0.4); }
+        .btn-ghost:hover { background:rgba(255,255,255,0.1); border-color:white; transform:translateY(-3px); }
+        .btn-white { background:white; color:var(--red); border-color:white; }
+        .btn-white:hover { background:transparent; color:white; box-shadow:0 8px 24px rgba(0,0,0,0.2); }
+        .btn-outline-w { background:transparent; color:white; border-color:rgba(255,255,255,0.4); }
+        .btn-outline-w:hover { border-color:white; background:rgba(255,255,255,0.1); }
+        .btn-sm {
+            display:inline-flex; align-items:center; gap:5px;
+            font-size:0.78rem; font-weight:700;
+            color:var(--red); padding:6px 14px;
+            border:2px solid rgba(204,34,34,0.2); border-radius:50px;
+            transition:all var(--ease);
+        }
+        .btn-sm:hover { background:var(--red); color:white; border-color:var(--red); }
+
+        /* =====================
+           MARQUEE
+        ===================== */
+        .mq { overflow:hidden; padding:13px 0; }
+        .mq-red   { background:var(--red); }
+        .mq-green { background:var(--green); }
+        .mq-track { display:flex; white-space:nowrap; }
+        .mq-inner { display:flex; animation:mqL 28s linear infinite; }
+        .mq-inner-r { animation:mqR 28s linear infinite; }
+        .mq-item {
+            display:inline-flex; align-items:center; gap:14px;
+            padding:0 26px;
+            font-weight:700; font-size:0.8rem;
+            text-transform:uppercase; letter-spacing:0.12em;
+            color:rgba(255,255,255,0.9);
+        }
+        .mq-dot { width:5px; height:5px; background:rgba(255,255,255,0.4); border-radius:50%; flex-shrink:0; }
+        @keyframes mqL { from{transform:translateX(0);}  to{transform:translateX(-50%);} }
+        @keyframes mqR { from{transform:translateX(-50%);} to{transform:translateX(0);} }
+
+        /* =====================
+           SECTIONS COMMON
+        ===================== */
+        section { padding:100px 0; }
+        .container { max-width:1240px; margin:0 auto; padding:0 24px; }
+
+        .sec-lbl {
+            display:inline-flex; align-items:center; gap:10px;
+            font-size:0.76rem; font-weight:700;
+            text-transform:uppercase; letter-spacing:0.15em;
+            color:var(--red); margin-bottom:14px;
+        }
+        .sec-lbl::before { content:''; display:block; width:22px; height:2px; background:var(--red); }
+        .sec-h2 {
+            font-family:var(--font-h); font-weight:700;
+            font-size:clamp(2rem,3.5vw,3rem);
+            color:var(--dark); line-height:1.2; margin-bottom:14px;
+        }
+        .sec-h2 em { color:var(--red); font-style:italic; }
+        .sec-sub { font-size:1.02rem; color:var(--text-muted); max-width:500px; line-height:1.7; }
+        .sec-head {
+            display:flex; align-items:flex-end; justify-content:space-between;
+            gap:28px; margin-bottom:52px; flex-wrap:wrap;
+        }
+
+        /* Reveal */
+        .rv { opacity:0; transform:translateY(36px); transition:opacity 0.7s ease, transform 0.7s ease; }
+        .rv.in { opacity:1; transform:translateY(0); }
+        .d1{transition-delay:0.1s;} .d2{transition-delay:0.2s;} .d3{transition-delay:0.3s;}
+        .d4{transition-delay:0.4s;} .d5{transition-delay:0.5s;} .d6{transition-delay:0.6s;}
+
+        /* =====================
+           MENU SECTION
+        ===================== */
+        #menu { background:var(--cream); }
+        .menu-tabs { display:flex; gap:8px; margin-bottom:44px; flex-wrap:wrap; }
+        .tab {
+            padding:9px 22px; border-radius:50px;
+            font-weight:700; font-size:0.82rem;
+            letter-spacing:0.05em; text-transform:uppercase;
+            cursor:pointer; transition:all var(--ease);
+            border:2px solid var(--border);
+            background:white; color:var(--text-muted);
+        }
+        .tab.on, .tab:hover { background:var(--red); color:white; border-color:var(--red); }
+
+        .menu-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:26px; }
+        .mc {
+            background:white; border-radius:var(--radius-lg);
+            overflow:hidden; box-shadow:var(--shadow-sm);
+            transition:all var(--ease);
+        }
+        .mc:hover { transform:translateY(-8px); box-shadow:var(--shadow-lg); }
+        .mc-ph { width:100%; aspect-ratio:4/3; }
+        .mc-ph .ph { width:100%; height:100%; min-height:210px; border-radius:0; border:none; border-bottom:2.5px dashed var(--red); }
+        .mc-body { padding:18px 20px 22px; }
+        .mc-cat { font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:var(--red); margin-bottom:5px; }
+        .mc-name { font-family:var(--font-h); font-weight:700; font-size:1.15rem; color:var(--dark); margin-bottom:7px; }
+        .mc-desc { font-size:0.85rem; color:var(--text-muted); line-height:1.6; margin-bottom:14px; }
+        .mc-foot { display:flex; align-items:center; justify-content:space-between; }
+        .mc-price { font-family:var(--font-h); font-weight:700; font-size:1.05rem; color:var(--red); }
+        .mc-cta {
+            display:inline-flex; align-items:center; gap:5px;
+            font-size:0.8rem; font-weight:700; color:var(--dark);
+            padding:7px 14px; border:2px solid var(--border);
+            border-radius:50px; transition:all var(--ease);
+        }
+        .mc-cta svg { width:13px; height:13px; transition:transform var(--ease); }
+        .mc-cta:hover { background:var(--red); color:white; border-color:var(--red); }
+        .mc-cta:hover svg { transform:translateX(3px); }
+
+        /* =====================
+           STATS
+        ===================== */
+        #stats { background:var(--dark); padding:80px 0; }
+        .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:36px; }
+        .stat { text-align:center; }
+        .stat-n {
+            font-family:var(--font-h); font-weight:900;
+            font-size:clamp(2.5rem,4vw,4rem);
+            color:white; line-height:1; margin-bottom:7px;
+        }
+        .stat-n em { color:var(--red); font-style:normal; }
+        .stat-l { font-size:0.83rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:rgba(255,255,255,0.45); }
+
+        /* =====================
+           NOSOTROS
+        ===================== */
+        #nosotros { background:white; }
+        .nos-grid { display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:center; }
+        .nos-photos { position:relative; padding-right:30px; }
+        .nos-main .ph { min-height:480px; border-radius:var(--radius-xl); }
+        .nos-acc {
+            position:absolute; bottom:-28px; right:-10px;
+            width:52%; border-radius:var(--radius-lg);
+            border:5px solid white; box-shadow:var(--shadow-md); overflow:hidden;
+        }
+        .nos-acc .ph { min-height:180px; border-radius:0; border:none; border:2.5px dashed var(--red); }
+        .nos-badge {
+            position:absolute; top:28px; right:-18px;
+            background:var(--red); color:white;
+            border-radius:var(--radius-md); padding:14px 18px;
+            text-align:center; box-shadow:var(--shadow-md);
+            animation:float 6s ease-in-out infinite;
+            z-index:2;
+        }
+        .nb-num { font-family:var(--font-h); font-weight:900; font-size:2.4rem; line-height:1; }
+        .nb-txt { font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; opacity:0.85; }
+
+        .nos-desc { font-size:1.02rem; color:var(--text-muted); line-height:1.8; margin-bottom:22px; }
+        .nos-feats { display:flex; flex-direction:column; gap:14px; margin-bottom:32px; }
+        .nos-feat { display:flex; align-items:flex-start; gap:13px; }
+        .feat-ico {
+            width:44px; height:44px;
+            background:rgba(204,34,34,0.08);
+            border-radius:var(--radius-sm);
+            display:flex; align-items:center; justify-content:center; flex-shrink:0;
+        }
+        .feat-ico svg { width:22px; height:22px; fill:var(--red); }
+        .feat-t { font-weight:700; font-size:0.92rem; color:var(--dark); margin-bottom:2px; }
+        .feat-d { font-size:0.84rem; color:var(--text-muted); line-height:1.5; }
+
+        /* =====================
+           ESPECIALIDADES
+        ===================== */
+        #esp { background:var(--cream); }
+        .esp-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; }
+        .esp-card {
+            background:white; border-radius:var(--radius-lg);
+            display:grid; grid-template-columns:170px 1fr;
+            overflow:hidden; box-shadow:var(--shadow-sm);
+            transition:all var(--ease);
+        }
+        .esp-card:hover { transform:translateX(5px); box-shadow:var(--shadow-md); }
+        .esp-ph { width:100%; height:100%; }
+        .esp-ph .ph { width:100%; height:100%; min-height:155px; border-radius:0; border:none; border-right:2.5px dashed var(--red); }
+        .esp-body { padding:18px 20px; }
+        .esp-badge {
+            display:inline-block;
+            background:rgba(200,150,10,0.1); color:var(--gold);
+            font-size:0.68rem; font-weight:700; text-transform:uppercase;
+            letter-spacing:0.1em; padding:3px 9px; border-radius:4px;
+            margin-bottom:7px;
+        }
+        .esp-name { font-family:var(--font-h); font-weight:700; font-size:1.1rem; color:var(--dark); margin-bottom:5px; }
+        .esp-desc { font-size:0.83rem; color:var(--text-muted); line-height:1.6; margin-bottom:13px; }
+        .esp-foot { display:flex; align-items:center; justify-content:space-between; }
+        .esp-price { font-family:var(--font-h); font-weight:700; color:var(--red); font-size:1.05rem; }
+
+        /* =====================
+           CTA BAND
+        ===================== */
+        #cta-b {
+            background:var(--red); padding:80px 0;
+            position:relative; overflow:hidden;
+        }
+        #cta-b::before { content:''; position:absolute; top:-50%; right:-10%; width:500px; height:500px; background:rgba(255,255,255,0.05); border-radius:50%; }
+        #cta-b::after  { content:''; position:absolute; bottom:-60%; left:-5%; width:380px; height:380px; background:rgba(0,0,0,0.08); border-radius:50%; }
+        .cta-b-c {
+            position:relative; z-index:1;
+            display:grid; grid-template-columns:1fr auto;
+            align-items:center; gap:36px;
+        }
+        .cta-script { font-family:var(--font-s); font-size:clamp(1rem,2vw,1.35rem); color:rgba(255,255,255,0.7); margin-bottom:8px; }
+        .cta-h2 { font-family:var(--font-h); font-weight:900; font-size:clamp(2rem,3.5vw,2.9rem); color:white; line-height:1.1; }
+        .cta-btns { display:flex; gap:12px; flex-wrap:wrap; flex-shrink:0; }
+
+        /* =====================
+           GALERÍA
+        ===================== */
+        #gal { background:white; }
+        .gal-grid {
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            grid-template-rows:auto auto;
+            gap:14px;
+        }
+        .gal-i { border-radius:var(--radius-md); overflow:hidden; }
+        .gal-i.lg { grid-row:span 2; }
+        .gal-i .ph { width:100%; height:100%; min-height:200px; border-radius:0; }
+        .gal-i.lg .ph { min-height:430px; }
+
+        /* =====================
+           CONTACTO
+        ===================== */
+        #contacto { background:var(--cream); }
+        .con-grid { display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:start; }
+        .con-item { display:flex; align-items:flex-start; gap:15px; margin-bottom:26px; }
+        .con-ico {
+            width:46px; height:46px; background:var(--red);
+            border-radius:var(--radius-sm);
+            display:flex; align-items:center; justify-content:center; flex-shrink:0;
+        }
+        .con-ico svg { width:22px; height:22px; fill:white; }
+        .con-lbl { font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-muted); margin-bottom:2px; }
+        .con-val { font-weight:700; color:var(--dark); font-size:0.97rem; line-height:1.4; }
+        .con-val a { color:var(--dark); transition:color var(--ease); }
+        .con-val a:hover { color:var(--red); }
+
+        .map-ph {
+            width:100%; aspect-ratio:4/3; border-radius:var(--radius-lg);
+            background:#e8e4dc; border:2.5px dashed var(--red);
+            display:flex; align-items:center; justify-content:center;
+            flex-direction:column; gap:11px;
+        }
+        .map-ph-svg svg { width:44px; height:44px; }
+        .map-lbl { font-weight:700; color:var(--text-muted); font-size:0.88rem; }
+        .map-hint { font-size:0.76rem; color:var(--text-muted); text-align:center; max-width:220px; line-height:1.5; }
+
+        .socials { display:flex; gap:10px; margin-top:28px; }
+        .sl {
+            width:44px; height:44px; background:var(--dark);
+            border-radius:var(--radius-sm);
+            display:flex; align-items:center; justify-content:center;
+            transition:all var(--ease);
+        }
+        .sl:hover { background:var(--red); transform:translateY(-3px); }
+        .sl svg { width:19px; height:19px; fill:white; }
+        .sl-wa { background:#25D366!important; }
+        .sl-wa:hover { background:#1da851!important; }
+
+        /* =====================
+           FOOTER
+        ===================== */
+        footer { background:var(--dark); padding:80px 0 0; }
+        .ft-grid {
+            display:grid; grid-template-columns:2fr 1fr 1fr 1fr;
+            gap:44px; padding-bottom:56px;
+            border-bottom:1px solid rgba(255,255,255,0.08);
+        }
+        .ft-logo-ph {
+            height:58px; width:110px; margin-bottom:18px;
+            background:rgba(255,255,255,0.08);
+            border:2px dashed rgba(255,255,255,0.18);
+            border-radius:8px; display:flex; align-items:center; justify-content:center;
+            color:rgba(255,255,255,0.35); font-size:0.62rem; font-weight:700;
+            text-align:center; padding:6px; line-height:1.3;
+        }
+        .ft-logo img { height:58px; width:auto; margin-bottom:18px; }
+        .ft-desc { font-size:0.88rem; color:rgba(255,255,255,0.4); line-height:1.7; margin-bottom:20px; }
+        .ft-tagline { font-family:var(--font-s); font-size:1.25rem; color:var(--red); }
+        .ft-col-t { font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:rgba(255,255,255,0.55); margin-bottom:18px; }
+        .ft-links { list-style:none; display:flex; flex-direction:column; gap:9px; }
+        .ft-links a {
+            font-size:0.88rem; color:rgba(255,255,255,0.42);
+            transition:color var(--ease);
+            display:inline-flex; align-items:center; gap:6px;
+        }
+        .ft-links a::before {
+            content:''; display:block; width:6px; height:1px;
+            background:var(--red); flex-shrink:0; transition:width var(--ease);
+        }
+        .ft-links a:hover { color:white; }
+        .ft-links a:hover::before { width:12px; }
+        .ft-bot {
+            padding:22px 0;
+            display:flex; align-items:center; justify-content:space-between;
+            gap:14px; flex-wrap:wrap;
+        }
+        .ft-copy { font-size:0.8rem; color:rgba(255,255,255,0.28); }
+        .ft-copy span { color:rgba(255,255,255,0.48); }
+
+        /* =====================
+           RESPONSIVE
+        ===================== */
+        @media (max-width:1024px) {
+            .menu-grid  { grid-template-columns:repeat(2,1fr); }
+            .stats-grid { grid-template-columns:repeat(2,1fr); }
+            .ft-grid    { grid-template-columns:1fr 1fr; gap:36px; }
+        }
+        @media (max-width:768px) {
+            section { padding:68px 0; }
+            .nav-ul  { display:none; }
+            .nav-ham { display:flex; }
+            .hero-c  { grid-template-columns:1fr; padding:110px 20px 70px; text-align:center; }
+            .hero-btns { justify-content:center; }
+            .hero-desc { margin-inline:auto; }
+            .hero-vis  { display:none; }
+            .nos-grid  { grid-template-columns:1fr; gap:44px; }
+            .nos-photos { padding-right:0; }
+            .nos-acc   { right:0; width:46%; }
+            .nos-badge { right:-6px; }
+            .menu-grid { grid-template-columns:1fr; }
+            .esp-grid  { grid-template-columns:1fr; }
+            .cta-b-c   { grid-template-columns:1fr; text-align:center; }
+            .cta-btns  { justify-content:center; }
+            .gal-grid  { grid-template-columns:1fr 1fr; }
+            .gal-i.lg  { grid-row:span 1; }
+            .con-grid  { grid-template-columns:1fr; }
+            .ft-grid   { grid-template-columns:1fr; gap:32px; }
+            .ft-bot    { flex-direction:column; text-align:center; }
+            .sec-head  { flex-direction:column; align-items:flex-start; }
+        }
+        @media (max-width:480px) {
+            .hero-c    { padding:96px 18px 56px; }
+            .gal-grid  { grid-template-columns:1fr; }
+            .esp-card  { grid-template-columns:1fr; }
+            .esp-ph .ph { min-height:170px; border-right:none; border-bottom:2.5px dashed var(--red); }
+            .stats-grid { grid-template-columns:1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav id="nav" class="t">
+    <div class="nav-c">
+        <a href="https://pizzanostrabolivia.com" class="nav-logo">
+            <!--
+                LOGO NAVBAR:
+                Reemplaza el div de abajo con:
+                <img src="tu-logo.png" alt="La Pizza Nostra">
+            -->
+            <img src="logo.png" alt="La Pizza Nostra">
+        </a>
+
+        <ul class="nav-ul">
+            <li><a href="https://pizzanostrabolivia.com">Inicio</a></li>
+            <li><a href="#menu">Menú</a></li>
+            <li><a href="#nosotros">Nosotros</a></li>
+            <li><a href="#esp">Especialidades</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+            <li><a href="#" class="nav-cta">Reservar Mesa</a></li>
+        </ul>
+
+        <button class="nav-ham" id="ham" aria-label="Abrir menú">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+
+    <div class="nav-mob" id="navMob">
+        <a href="https://pizzanostrabolivia.com">Inicio</a>
+        <a href="#menu">Menú</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#esp">Especialidades</a>
+        <a href="#contacto">Contacto</a>
+        <a href="#" class="nav-cta">Reservar Mesa</a>
+    </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section id="hero">
+    <div class="hero-bg">
+        <!--
+            FOTO DE FONDO HERO:
+            Reemplaza el div.hero-bg-ph con:
+            <img src="tu-foto-hero.jpg" style="width:100%;height:100%;object-fit:cover;" alt="La Pizza Nostra">
+            Tamaño recomendado: 1920x1080px
+        -->
+        <div class="hero-bg-ph">
+            <div class="hero-bg-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4M9 3L7.17 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.17L15 3H9z"/></svg>
+            </div>
+            <div class="hero-bg-lbl">FOTO DE FONDO DEL HERO<br><span style="font-size:.72rem;opacity:.65;">Ambiente del local / pizza en horno — 1920×1080px</span></div>
+        </div>
+    </div>
+
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-c">
+        <!-- Texto izquierdo -->
+        <div class="hero-text">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                <span>Bolivia &nbsp;·&nbsp; Auténtica Pizza Italiana</span>
+            </div>
+            <h1 class="hero-h1">
+                La auténtica<br>
+                <em>pizza</em> &amp; pasta<br>
+                de Bolivia
+            </h1>
+            <p class="hero-script">La pizza, la pasta</p>
+            <p class="hero-desc">
+                Bienvenido a La Pizza Nostra, donde cada pizza es preparada con los mejores ingredientes frescos y la pasión de la auténtica tradición italiana.
+            </p>
+            <div class="hero-btns">
+                <a href="#menu" class="btn btn-red">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg>
+                    Ver Menú
+                </a>
+                <a href="#" class="btn btn-ghost">Reservar Mesa</a>
+            </div>
+        </div>
+
+        <!-- Visual derecho -->
+        <div class="hero-vis">
+            <div class="hero-vis-wrap">
+                <!--
+                    FOTO HERO LATERAL (plato / pizza destacada):
+                    Reemplaza el div.ph con:
+                    <img src="pizza-hero.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:40px;" alt="Pizza Nostra">
+                    Tamaño recomendado: 600×800px
+                -->
+                <div class="ph" style="min-height:480px;border-radius:var(--radius-xl);width:100%;">
+                    <div class="ph-inner">
+                        <div class="ph-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4M9 3L7.17 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.17L15 3H9z"/></svg>
+                        </div>
+                        <p class="ph-label">Foto: Pizza / Plato Destacado</p>
+                        <p class="ph-hint">Imagen principal del hero lateral<br>600×800px recomendado</p>
+                    </div>
+                </div>
+
+                <!-- Tarjetas flotantes -->
+                <div class="fc fc-1">
+                    <p class="fc-lbl">Pizza del día</p>
+                    <p class="fc-val"><em>Margherita</em> Especial</p>
+                </div>
+                <div class="fc fc-2">
+                    <p class="fc-lbl">Preparada en</p>
+                    <p class="fc-val">Horno de <em>Piedra</em></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-scroll">
+        <span>Descubrir</span>
+        <div class="scroll-ln"></div>
+    </div>
+</section>
+
+<!-- ========== MARQUEE 1 ========== -->
+<div class="mq mq-red">
+    <div class="mq-track">
+        <div class="mq-inner">
+            <span class="mq-item">Pizza Artesanal<span class="mq-dot"></span></span>
+            <span class="mq-item">Pasta Fresca<span class="mq-dot"></span></span>
+            <span class="mq-item">Ingredientes Premium<span class="mq-dot"></span></span>
+            <span class="mq-item">Horno de Piedra<span class="mq-dot"></span></span>
+            <span class="mq-item">Tradición Italiana<span class="mq-dot"></span></span>
+            <span class="mq-item">Sabor Auténtico<span class="mq-dot"></span></span>
+            <span class="mq-item">Recetas Originales<span class="mq-dot"></span></span>
+            <span class="mq-item">Entrega a Domicilio<span class="mq-dot"></span></span>
+            <!-- Duplicado para bucle infinito -->
+            <span class="mq-item">Pizza Artesanal<span class="mq-dot"></span></span>
+            <span class="mq-item">Pasta Fresca<span class="mq-dot"></span></span>
+            <span class="mq-item">Ingredientes Premium<span class="mq-dot"></span></span>
+            <span class="mq-item">Horno de Piedra<span class="mq-dot"></span></span>
+            <span class="mq-item">Tradición Italiana<span class="mq-dot"></span></span>
+            <span class="mq-item">Sabor Auténtico<span class="mq-dot"></span></span>
+            <span class="mq-item">Recetas Originales<span class="mq-dot"></span></span>
+            <span class="mq-item">Entrega a Domicilio<span class="mq-dot"></span></span>
+        </div>
+    </div>
+</div>
+
+<!-- ========== MARQUEE 2 ========== -->
+<div class="mq mq-green">
+    <div class="mq-track">
+        <div class="mq-inner mq-inner-r">
+            <span class="mq-item">La Pizza Nostra<span class="mq-dot"></span></span>
+            <span class="mq-item">Bolivia<span class="mq-dot"></span></span>
+            <span class="mq-item">La pizza, la pasta<span class="mq-dot"></span></span>
+            <span class="mq-item">Antipastos<span class="mq-dot"></span></span>
+            <span class="mq-item">Pizzas Especiales<span class="mq-dot"></span></span>
+            <span class="mq-item">Postres Italianos<span class="mq-dot"></span></span>
+            <span class="mq-item">Vinos Seleccionados<span class="mq-dot"></span></span>
+            <span class="mq-item">Reserve Su Mesa<span class="mq-dot"></span></span>
+            <!-- Duplicado -->
+            <span class="mq-item">La Pizza Nostra<span class="mq-dot"></span></span>
+            <span class="mq-item">Bolivia<span class="mq-dot"></span></span>
+            <span class="mq-item">La pizza, la pasta<span class="mq-dot"></span></span>
+            <span class="mq-item">Antipastos<span class="mq-dot"></span></span>
+            <span class="mq-item">Pizzas Especiales<span class="mq-dot"></span></span>
+            <span class="mq-item">Postres Italianos<span class="mq-dot"></span></span>
+            <span class="mq-item">Vinos Seleccionados<span class="mq-dot"></span></span>
+            <span class="mq-item">Reserve Su Mesa<span class="mq-dot"></span></span>
+        </div>
+    </div>
+</div>
+
+<!-- ========== MENÚ ========== -->
+<section id="menu">
+    <div class="container">
+        <div class="sec-head">
+            <div>
+                <p class="sec-lbl">Nuestra Propuesta</p>
+                <h2 class="sec-h2">El menú que <em>enamora</em></h2>
+                <p class="sec-sub">Cada plato es una experiencia italiana auténtica, preparada con ingredientes frescos y seleccionados.</p>
+            </div>
+            <a href="https://pizzanostrabolivia.com/menu" class="btn btn-red">Ver Menú Completo</a>
+        </div>
+
+        <div class="menu-tabs">
+            <button class="tab on">Pizzas</button>
+            <button class="tab">Pastas</button>
+            <button class="tab">Antipastos</button>
+            <button class="tab">Postres</button>
+            <button class="tab">Bebidas</button>
+        </div>
+
+        <div class="menu-grid">
+            <!-- Carta 1 -->
+            <div class="mc rv d1">
+                <div class="mc-ph">
+                    <!--
+                        FOTO MENÚ 1 (ej: Margherita):
+                        <img src="pizza-margherita.jpg" alt="Pizza Margherita" style="width:100%;height:100%;object-fit:cover;">
+                        Tamaño: 500×375px
+                    -->
+                    <div class="ph" style="min-height:210px;border-radius:0;border:none;border-bottom:2.5px dashed var(--red);">
+                        <div class="ph-inner">
+                            <div class="ph-icon"><svg viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4M9 3L7.17 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.17L15 3H9z"/></svg></div>
+                            <p class="ph-label">Foto Menú 1</p>
+                            <p class="ph-hint">Ej: Pizza Margherita — 500×375px</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mc-body">
+                    <p class="mc-cat">Pizza Clásica</p>
+                    <h3 class="mc-name">Pizza Margherita</h3>
+                    <p class="mc-desc">Salsa de tomate, mozzarella fresca, albahaca y aceite de oliva extra virgen sobre masa artesanal.</p>
+                    <div class="mc-foot">
+                        <span class="mc-price">Bs. [Precio]</span>
+                        <a href="https://pizzanostrabolivia.com/menu" class="mc-cta">Ver más <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carta 2 -->
+            <div class="mc rv d2">
+                <div class="mc-ph">
+                    <!--
+                        FOTO MENÚ 2 (ej: Cuatro Quesos):
+                        <img src="pizza-cuatro-quesos.jpg" alt="Pizza Cuatro Quesos" style="width:100%;height:100%;object-fit:cover;">
+                        Tamaño: 500×375px
+                    -->
+                    <div class="ph" style="min-height:210px;border-radius:0;border:none;border-bottom:2.5px dashed var(--red);">
+                        <div class="ph-inner">
+                            <div class="ph-icon"><svg viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4M9 3L7.17 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.17L15 3H9z"/></svg></div>
+                            <p class="ph-label">Foto Menú 2</p>
+                            <p class="ph-hint">Ej: Pizza Cuatro Quesos — 500×375px</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mc-body">
+                    <p class="mc-cat">Pizza Especial</p>
+                    <h3 class="mc-name">Pizza Cuatro Quesos</h3>
+                    <p class="mc-desc">Mozzarella, gorgonzola, parmesano y ricotta sobre base de crema blanca con hierbas finas.</p>
+                    <div class="mc-foot">
+                        <span class="mc-price">Bs. [Precio]</span>
+                        <a href="https://pizzanostrabolivia.com/menu" class="mc-cta">Ver más <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carta 3 -->
+            <div class="mc rv d3">
+                <div class="mc-ph">
+                    <!--
+                        FOTO MENÚ 3 (ej: Spaghetti Carbonara):
+                        <img src="pasta-carbonara.jpg" alt="Spaghetti Carbonara" style="width:100%;height:100%;object-fit:cover;">
+                        Tamaño: 500×375px
+                    -->
+                    <div class="ph" style="min-height:210px;border-radius:0;border:none;border-bottom:2.5px dashed var(--red);">
+                        <div class="ph-inner">
+                            <div class="ph-icon"><svg viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4M9 3L7.17 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.17L15 3H9z"/></svg></div>
+                            <p class="ph-label">Foto Menú 3</p>
+                            <p class="ph-hint">Ej: Spaghetti Carbonara — 500×375px</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mc-body">
+                    <p class="mc-cat">Pasta</p>
+                    <h3 class="mc-name">Spaghetti Carbonara</h3>
+                    <p class="mc-desc">Pasta al dente con salsa carbonara tradicional, panceta, yema de huevo y parmesano rallado.</p>
+                    <div class="mc-foot">
+                        <span class="mc-price">Bs. [Precio]</span>
+                        <a href="https://pizzanostrabolivia.com/menu" class="mc-cta">Ver más <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== STATS ========== -->
+<section id="stats">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat rv d1">
+                <div class="stat-n"><span class="cnt" data-target="10">0</span><em>+</em></div>
+                <p class="stat-l">Años de Experiencia</p>
+            </div>
+            <div class="stat rv d2">
+                <div class="stat-n"><span class="cnt" data-target="50">0</span><em>+</em></div>
+                <p class="stat-l">Sabores en el Menú</p>
+            </div>
+            <div class="stat rv d3">
+                <div class="stat-n"><span class="cnt" data-target="5">0</span></div>
+                <p class="stat-l">Sucursales en Bolivia</p>
+            </div>
+            <div class="stat rv d4">
+                <div class="stat-n"><span class="cnt" data-target="100">0</span><em>K+</em></div>
+                <p class="stat-l">Clientes Satisfechos</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== NOSOTROS ========== -->
+<section id="nosotros">
+    <div class="container">
+        <div class="nos-grid">
+            <div class="nos-photos rv">
+                <div class="nos-main">
+                    <!--
+                        FOTO NOSOTROS PRINCIPAL (ambiente del local):
+                        Reemplaza el div.ph con:
+                        <img src="local-nosotros.jpg" alt="La Pizza Nostra local" style="width:100%;height:100%;object-fit:cover;border-radius:40px;">
+                        Tamaño: 600×800px
+                    -->
+                    <div class="ph" style="min-height:480px;border-radius:var(--radius-xl);">
+                        <div class="ph-inner">
+                            <div class="ph-icon"><svg viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4M9 3L7.17 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.17L15 3H9z"/></svg></div>
+                            <p class="ph-label">Foto: Ambiente del Local</p>
+                            <p class="ph-hint">Interior del restaurante, equipo, horno<br>600×800px recomendado</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nos-acc">
+                    <!--
+                        FOTO ACENTO NOSOTROS (detalle de pizza / ingredientes):
+                        <img src="pizza-detalle.jpg" alt="Detalle pizza" style="width:100%;height:100%;object-fit:cover;">
+                        Tamaño: 400×400px
+                    -->
+                    <div class="ph" style="min-height:180px;border-radius:0;border:none;">
+                        <div class="ph-inner" style="padding:10px;">
+                            <div class="ph-icon" style="width:38px;height:38px;"><svg viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4M9 3L7.17 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.17L15 3H9z"/></svg></div>
+                            <p class="ph-label" style="font-size:.78rem;">Foto: Detalle / Ingredientes</p>
+                            <p class="ph-hint">400×400px</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nos-badge">
+                    <div class="nb-num">10+</div>
+                    <div class="nb-txt">Años de<br>Tradición</div>
+                </div>
+            </div>
+
+            <div class="nos-text rv d2">
+                <p class="sec-lbl">Nuestra Historia</p>
+                <h2 class="sec-h2">Pasión italiana <em>en cada bocado</em></h2>
+                <p class="nos-desc">
+                    La Pizza Nostra nació de una profunda pasión por la auténtica cocina italiana. Nuestras recetas son transmitidas con amor, utilizando solo los mejores ingredientes para garantizar una experiencia única en cada visita.
+                </p>
+                <p class="nos-desc">
+                    Cada pizza es elaborada artesanalmente, con masa preparada diariamente y cocida en nuestro horno de piedra, brindando ese sabor inconfundible que nos distingue en Bolivia.
+                </p>
+                <div class="nos-feats">
+                    <div class="nos-feat">
+                        <div class="feat-ico"><svg viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21H5.5C7 17 9 13 17 12v4l5-5-5-5v2z"/></svg></div>
+                        <div><p class="feat-t">Masa artesanal diaria</p><p class="feat-d">Preparamos nuestra masa fresca cada día para garantizar la textura y sabor perfectos.</p></div>
+                    </div>
+                    <div class="nos-feat">
+                        <div class="feat-ico"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2m-2 14.5v-9l6 4.5-6 4.5z"/></svg></div>
+                        <div><p class="feat-t">Ingredientes seleccionados</p><p class="feat-d">Seleccionamos los mejores ingredientes para nuestras recetas originales italianas.</p></div>
+                    </div>
+                    <div class="nos-feat">
+                        <div class="feat-ico"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+                        <div><p class="feat-t">Pasión por la calidad</p><p class="feat-d">Cada plato es elaborado con dedicación y el amor que merece la cocina italiana.</p></div>
+                    </div>
+                </div>
+                <a href="https://pizzanostrabolivia.com/nosotros" class="btn btn-green">Conocer Nuestra Historia</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== ESPECIALIDADES ========== -->
+<section id="esp">
+    <div class="container">
+        <div class="sec-head">
+            <div>
+                <p class="sec-lbl">Lo Mejor de La Pizza Nostra</p>
+                <h2 class="sec-h2">Nuestras <em>especialidades</em></h2>
+                <p class="sec-sub">Platos que nuestros clientes no pueden dejar de pedir.</p>
+            </div>
+            <a href="https://pizzanostrabolivia.com/menu" class="btn btn-red">Ver Todo el Menú</a>
+        </div>
+
+        <div class="esp-grid">
+            <!-- Especialidad 1 -->
+            <div class="esp-card rv d1">
+                <div class="esp-ph">
+                    <!--
+                        FOTO ESPECIALIDAD 1:
+                        <img src="esp-1.jpg" alt="Especialidad 1" style="width:100%;height:100%;object-fit:cover;">
+                        Tamaño: 340×320px
+                    -->
+                    <div class="ph" style="min-height:155px;border-radius:0;border:none;border-right:2.5px dashed var(--red);">
+                        <div class="ph-inner" style="padding:10px;">
+                            <div class="ph-icon" style="width:36px;height:36px;"><svg viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4M9 3L7.17 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.17L15 3H9z"/></svg></div>
+                            <p class="ph-label" style="font-size:.72rem;">Foto Esp. 1</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="esp-body">
+                    <span class="esp-badge">Favorito</span>
+                    <h3 class="esp-name">Pizza Nostra Especial</h3>
+                    <p class="esp-desc">La combinación perfecta que nos define. Masa crocante, salsa casera y los mejores toppings.</p>
+                    <div class="esp-foot">
+                        <span class="esp-price">Bs. [Precio]</span>
+                        <a href="https://pizzanostrabolivia.com/menu" class="btn-sm">Ver detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Especialidad 2 -->
+            <div class="esp-card rv d2">
+                <div class="esp-ph">
+                    <!--
+                        FOTO ESPECIALIDAD 2:
+                        <img src="esp-2.jpg" alt="Fettuccine Alfredo" style="width:100%;height:100%;object-fit:cover;">
+                        Tamaño: 340×320px
+                    -->
+                    <div class="ph" style="min-height:155px;border-radius:0;border:none;border-right:2.5px dashed var(--red);">
+                        <div class="ph-inner" style="padding:10px;">
+                            <div class="ph-icon" style="width:36px;height:36px;"><svg viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4M9 3L7.17 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.17L15 3H9z"/></svg></div>
+                            <p class="ph-label" style="font-size:.72rem;">Foto Esp. 2</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="esp-body">
+                    <span class="esp-badge">Pasta</span>
+                    <h3 class="esp-name">Fettuccine Alfredo</h3>
+                    <p class="esp-desc">Pasta fresca con cremosa salsa alfredo, parmesano y mantequilla de primera calidad.</p>
+                    <div class="esp-foot">
+                        <span class="esp-price">Bs. [Precio]</span>
+                        <a href="https://pizzanostrabolivia.com/menu" class="btn-sm">Ver detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Especialidad 3 -->
+            <div class="esp-card rv d3">
+                <div class="esp-ph">
+                    <!--
+                        FOTO ESPECIALIDAD 3:
+                        <img src="esp-3.jpg" alt="Tabla Antipasto" style="width:100%;height:100%;object-fit:cover;">
+                        Tamaño: 340×320px
+                    -->
+                    <div class="ph" style="min-height:155px;border-radius:0;border:none;border-right:2.5px dashed var(--red);">
+                        <div class="ph-inner" style="padding:10px;">
+                            <div class="ph-icon" style="width:36px;height:36px;"><svg viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4M9 3L7.17 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.17L15 3H9z"/></svg></div>
+                            <p class="ph-label" style="font-size:.72rem;">Foto Esp. 3</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="esp-body">
+                    <span class="esp-badge">Antipasto</span>
+                    <h3 class="esp-name">Tabla Antipasto</h3>
+                    <p class="esp-desc">Selección de embutidos italianos, quesos madurados, aceitunas y focaccia recién horneada.</p>
+                    <div class="esp-foot">
+                        <span class="esp-price">Bs. [Precio]</span>
+                        <a href="https://pizzanostrabolivia.com/menu" class="btn-sm">Ver detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Especialidad 4 -->
+            <div class="esp-card rv d4">
+                <div class="esp-ph">
+                    <!--
+                        FOTO ESPECIALIDAD 4:
+                        <img src="esp-4.jpg" alt="Tiramisú" style="width:100%;height:100%;object-fit:cover;">
+                        Tamaño: 340×320px
+                    -->
+                    <div class="ph" style="min-height:155px;border-radius:0;border:none;border-right:2.5px dashed var(--red);">
+                        <div class="ph-inner" style="padding:10px;">
+                            <div class="ph-icon" style="width:36px;height:36px;"><svg viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4M9 3L7.17 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.17L15 3H9z"/></svg></div>
+                            <p class="ph-label" style="font-size:.72rem;">Foto Esp. 4</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="esp-body">
+                    <span class="esp-badge">Postre</span>
+                    <h3 class="esp-name">Tiramisú Casero</h3>
+                    <p class="esp-desc">El clásico italiano preparado con mascarpone, café espresso y ladyfingers artesanales.</p>
+                    <div class="esp-foot">
+                        <span class="esp-price">Bs. [Precio]</span>
+                        <a href="https://pizzanostrabolivia.com/menu" class="btn-sm">Ver detalles</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== CTA BAND ========== -->
+<section id="cta-b">
+    <div class="container">
+        <div class="cta-b-c">
+            <div>
+                <p class="cta-script">Una experiencia que recordarás</p>
+                <h2 class="cta-h2">Reserva tu mesa<br>esta noche</h2>
+            </div>
+            <div class="cta-btns">
+                <a href="#" class="btn btn-white">Reservar Mesa</a>
+                <a href="#menu" class="btn btn-outline-w">Ver el Menú</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== GALERÍA ========== -->
+<section id="gal">
+    <div class="container">
+        <div class="sec-head">
+            <div>
+                <p class="sec-lbl">Galería</p>
+                <h2 class="sec-h2">Momentos <em>deliciosos</em></h2>
+                <p class="sec-sub">Un vistazo a nuestros platos, nuestro local y la experiencia La Pizza Nostra.</p>
+            </div>
+            <a href="https://pizzanostrabolivia.com/galeria" class="btn btn-red">Ver Galería Completa</a>
+        </div>
+
+        <div class="gal-grid">
+            <!-- Foto grande -->
+            <div class="gal-i lg rv d1">
+                <!--
+                    GALERÍA FOTO 1 (grande, ocupa 2 filas):
+                    <img src="gal-1.jpg" alt="Galería 1" style="width:100%;height:100%;object-fit:cover;">
+                    Tamaño: 600×900px
+                -->
+                <div class="ph" style="min-height:430px;border-radius:var(--radius-md);">
+                    <div class="ph-inner">
+                        <div class="ph-icon"><svg viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4M9 3L7.17 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.17L15 3H9z"/></svg></div>
+                        <p class="ph-label">Galería Foto 1 — Grande</p>
+                        <p class="ph-hint">Ocupa 2 filas de altura<br>600×900px recomendado</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Foto 2 -->
+            <div class="gal-i rv d2">
+                <!--
+                    GALERÍA FOTO 2:
+                    <img src="gal-2.jpg" alt="Galería 2" style="width:100%;height:100%;object-fit:cover;">
+                    Tamaño: 500×400px
+                -->
+                <div class="ph" style="min-height:200px;border-radius:var(--radius-md);">
+                    <div class="ph-inner">
+                        <div class="ph-icon"><svg viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4M9 3L7.17 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.17L15 3H9z"/></svg></div>
+                        <p class="ph-label">Galería Foto 2</p>
+                        <p class="ph-hint">500×400px</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Foto 3 -->
+            <div class="gal-i rv d3">
+                <!--
+                    GALERÍA FOTO 3:
+                    <img src="gal-3.jpg" alt="Galería 3" style="width:100%;height:100%;object-fit:cover;">
+                    Tamaño: 500×400px
+                -->
+                <div class="ph" style="min-height:200px;border-radius:var(--radius-md);">
+                    <div class="ph-inner">
+                        <div class="ph-icon"><svg viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4M9 3L7.17 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.17L15 3H9z"/></svg></div>
+                        <p class="ph-label">Galería Foto 3</p>
+                        <p class="ph-hint">500×400px</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Foto 4 -->
+            <div class="gal-i rv d4">
+                <!--
+                    GALERÍA FOTO 4:
+                    <img src="gal-4.jpg" alt="Galería 4" style="width:100%;height:100%;object-fit:cover;">
+                    Tamaño: 500×400px
+                -->
+                <div class="ph" style="min-height:200px;border-radius:var(--radius-md);">
+                    <div class="ph-inner">
+                        <div class="ph-icon"><svg viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4M9 3L7.17 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.17L15 3H9z"/></svg></div>
+                        <p class="ph-label">Galería Foto 4</p>
+                        <p class="ph-hint">500×400px</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Foto 5 -->
+            <div class="gal-i rv d5">
+                <!--
+                    GALERÍA FOTO 5:
+                    <img src="gal-5.jpg" alt="Galería 5" style="width:100%;height:100%;object-fit:cover;">
+                    Tamaño: 500×400px
+                -->
+                <div class="ph" style="min-height:200px;border-radius:var(--radius-md);">
+                    <div class="ph-inner">
+                        <div class="ph-icon"><svg viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4M9 3L7.17 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.17L15 3H9z"/></svg></div>
+                        <p class="ph-label">Galería Foto 5</p>
+                        <p class="ph-hint">500×400px</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== CONTACTO ========== -->
+<section id="contacto">
+    <div class="container">
+        <div class="sec-head">
+            <div>
+                <p class="sec-lbl">Encuéntranos</p>
+                <h2 class="sec-h2">Visítanos o <em>contáctanos</em></h2>
+                <p class="sec-sub">Estamos disponibles para reservas, pedidos y cualquier consulta.</p>
+            </div>
+        </div>
+
+        <div class="con-grid">
+            <div class="rv">
+                <div class="con-item">
+                    <div class="con-ico"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+                    <div>
+                        <p class="con-lbl">Teléfono</p>
+                        <p class="con-val"><a href="tel:[INSERTA_TELEFONO]">[Inserta tu número de teléfono]</a></p>
+                    </div>
+                </div>
+
+                <div class="con-item">
+                    <div class="con-ico" style="background:#25D366;">
+                        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    </div>
+                    <div>
+                        <p class="con-lbl">WhatsApp</p>
+                        <p class="con-val"><a href="https://wa.me/[INSERTA_NUMERO]" target="_blank">[Inserta tu número de WhatsApp]</a></p>
+                    </div>
+                </div>
+
+                <div class="con-item">
+                    <div class="con-ico"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+                    <div>
+                        <p class="con-lbl">Dirección</p>
+                        <p class="con-val">[Inserta tu dirección]<br><span style="font-weight:400;font-size:.88rem;color:var(--text-muted);">Bolivia</span></p>
+                    </div>
+                </div>
+
+                <div class="con-item">
+                    <div class="con-ico"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg></div>
+                    <div>
+                        <p class="con-lbl">Horario de Atención</p>
+                        <p class="con-val">Lun – Jue: 12:00 – 22:00<br><span style="font-weight:400;">Vie – Dom: 12:00 – 23:00</span></p>
+                    </div>
+                </div>
+
+                <div class="socials">
+                    <a href="https://pizzanostrabolivia.com" class="sl" title="Facebook" target="_blank">
+                        <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>
+                    <a href="https://pizzanostrabolivia.com" class="sl" title="Instagram" target="_blank" style="background:#C13584;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-linecap="round" stroke-width="2"/></svg>
+                    </a>
+                    <a href="https://wa.me/[INSERTA_NUMERO]" class="sl sl-wa" title="WhatsApp" target="_blank">
+                        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="rv d2">
+                <!--
+                    MAPA: Reemplaza el div.map-ph con un iframe de Google Maps:
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=TU_EMBED_URL"
+                        width="100%" height="400"
+                        style="border:0;border-radius:24px;display:block;"
+                        allowfullscreen loading="lazy">
+                    </iframe>
+                -->
+                <div class="map-ph">
+                    <div class="map-ph-svg">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                    </div>
+                    <p class="map-lbl">Mapa / Ubicación</p>
+                    <p class="map-hint">Reemplaza con iframe de Google Maps<br>o imagen de tu ubicación</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+    <div class="container">
+        <div class="ft-grid">
+            <div>
+                <!--
+                    LOGO FOOTER:
+                    Reemplaza el div.ft-logo-ph con:
+                    <img src="tu-logo.png" alt="La Pizza Nostra" style="height:58px;width:auto;margin-bottom:18px;">
+                -->
+                <img src="logo.png" alt="La Pizza Nostra" style="height:58px;width:auto;margin-bottom:18px;">
+                <p class="ft-desc">La Pizza Nostra es tu destino de pizza y pasta auténtica en Bolivia. Elaboramos cada plato con ingredientes frescos y la pasión de la tradición italiana.</p>
+                <span class="ft-tagline">La pizza, la pasta</span>
+            </div>
+
+            <div>
+                <p class="ft-col-t">Menú</p>
+                <ul class="ft-links">
+                    <li><a href="https://pizzanostrabolivia.com/menu">Pizzas</a></li>
+                    <li><a href="https://pizzanostrabolivia.com/menu">Pastas</a></li>
+                    <li><a href="https://pizzanostrabolivia.com/menu">Antipastos</a></li>
+                    <li><a href="https://pizzanostrabolivia.com/menu">Postres</a></li>
+                    <li><a href="https://pizzanostrabolivia.com/menu">Bebidas</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <p class="ft-col-t">La Empresa</p>
+                <ul class="ft-links">
+                    <li><a href="https://pizzanostrabolivia.com/nosotros">Quiénes Somos</a></li>
+                    <li><a href="https://pizzanostrabolivia.com/sucursales">Sucursales</a></li>
+                    <li><a href="https://pizzanostrabolivia.com/galeria">Galería</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                    <li><a href="#">Reservar Mesa</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <p class="ft-col-t">Contacto</p>
+                <ul class="ft-links">
+                    <li><a href="tel:[INSERTA_TELEFONO]">[Tu Teléfono]</a></li>
+                    <li><a href="https://wa.me/[INSERTA_NUMERO]" target="_blank">WhatsApp</a></li>
+                    <li><a href="mailto:[TU_EMAIL]">[Tu Email]</a></li>
+                    <li><a href="https://pizzanostrabolivia.com/sucursales">[Tu Dirección]</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="ft-bot">
+            <p class="ft-copy">&copy; 2025 <span>La Pizza Nostra</span>. Todos los derechos reservados.</p>
+            <p class="ft-copy">Hecho con pasión en <span>Bolivia</span></p>
+        </div>
+    </div>
+</footer>
+
+<!-- ========== JAVASCRIPT ========== -->
+<script>
+    /* ----- Navbar scroll ----- */
+    const nav = document.getElementById('nav');
+    function handleScroll() {
+        if (window.scrollY > 60) {
+            nav.classList.remove('t');
+            nav.classList.add('sc');
+        } else {
+            nav.classList.add('t');
+            nav.classList.remove('sc');
+        }
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    /* ----- Hamburger ----- */
+    const ham     = document.getElementById('ham');
+    const navMob  = document.getElementById('navMob');
+    ham.addEventListener('click', () => {
+        ham.classList.toggle('open');
+        navMob.classList.toggle('open');
+    });
+    navMob.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+            ham.classList.remove('open');
+            navMob.classList.remove('open');
+        });
+    });
+
+    /* ----- Scroll reveal ----- */
+    const rvEls = document.querySelectorAll('.rv');
+    const rvObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) { e.target.classList.add('in'); rvObs.unobserve(e.target); }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+    rvEls.forEach(el => rvObs.observe(el));
+
+    /* ----- Counter animation ----- */
+    const counters = document.querySelectorAll('.cnt');
+    const cntObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            const el     = e.target;
+            const target = parseInt(el.getAttribute('data-target'));
+            const dur    = 1800;
+            const step   = target / (dur / 16);
+            let current  = 0;
+            const timer  = setInterval(() => {
+                current += step;
+                if (current >= target) { current = target; clearInterval(timer); }
+                el.textContent = Math.floor(current);
+            }, 16);
+            cntObs.unobserve(el);
+        });
+    }, { threshold: 0.5 });
+    counters.forEach(c => cntObs.observe(c));
+
+    /* ----- Smooth scroll for anchor links ----- */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', function(e) {
+            const tgt = document.querySelector(this.getAttribute('href'));
+            if (tgt) { e.preventDefault(); tgt.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        });
+    });
+
+    /* ----- Menu tabs ----- */
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('on'));
+            tab.classList.add('on');
+        });
+    });
+</script>
+</body>
+</html>
